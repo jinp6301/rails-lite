@@ -5,11 +5,11 @@ require_relative 'session'
 class ControllerBase
   attr_reader :params
 
-  def initialize(req, res)
+  def initialize(req, res, route_params = "")
     @res = res
     @req = req
-    @params = Params.new(res)
-    @route = route
+    @params = Params.new(req, route_params = "")
+    #@route = route
   end
 
   def session
@@ -46,5 +46,8 @@ class ControllerBase
   end
 
   def invoke_action(name)
+    send(name)
+    if @already_rendered
+      render
   end
 end
